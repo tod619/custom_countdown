@@ -93,10 +93,15 @@ button {
   margin-top: 15px;
   border: none;
   text-transform: uppercase;
+  letter-spacing: 2px;
   background: #006959;
   color: white;
   cursor: pointer;
   outline: none;
+}
+
+button:hover {
+  filter: brightness(110%);
 }
 
 /* Countdown */

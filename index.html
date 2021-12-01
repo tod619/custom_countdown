@@ -18,7 +18,7 @@
     <!-- Start: UI Container -->
     <div class="container">
         <!-- Start: Input -->
-        <div class="input-container" id="input-container">
+        <div class="input-container" id="input-container" hidden>
             <h1>Create a Custom Countdown!</h1>
             <form class="form" id="countdownForm">
                 <label for="title">Title</label>
@@ -29,6 +29,19 @@
             </form>
         </div>
         <!-- End: Input -->
+
+        <!-- Start: Countdown -->
+        <div class="countdown" id="countdown">
+            <h1 id="countdown-title">Countdown title here</h1>
+            <ul>
+                <li><span>3</span>Days</li>
+                <li><span>6</span>Hours</li>
+                <li><span>45</span>Minutes</li>
+                <li><span>30</span>Seconds</li>
+            </ul>
+            <button id="countdown">Reset</button>
+        </div>
+        <!-- End: Countdown -->
     </div>
     <!-- End: UI Container -->
     <!-- Script -->

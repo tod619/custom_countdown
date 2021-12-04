@@ -15,6 +15,8 @@ const day = hour * 24
 let countdownTitle = ''
 let countdownDate = ''
 let countdownValue = Date
+let countdownActive
+
 
 // Set Date Input Minimum With Todays Date
 const today = new Date().toISOString().split('T')[0]
@@ -22,26 +24,43 @@ dateEl.setAttribute('min', today)
 
 // populate countdown ui elements with form info
 function UpdateDom() {
-    const now = new Date().getTime()
-    const distance = countdownValue - now
+    countdownActive = setInterval(() => {
+        const now = new Date().getTime()
+        const distance = countdownValue - now
 
-    // calculate the days hours seconds + minutes
-    const days = Math.floor(distance / day)
-    const hours = Math.floor((distance % day) / hour)
-    const minutes = Math.floor((distance % hour) / minute)
-    const seconds = Math.floor((distance % minute) / second)
-    //console.log(days, hours, minutes, seconds)
+        // calculate the days hours seconds + minutes
+        const days = Math.floor(distance / day)
+        const hours = Math.floor((distance % day) / hour)
+        const minutes = Math.floor((distance % hour) / minute)
+        const seconds = Math.floor((distance % minute) / second)
+        //console.log(days, hours, minutes, seconds)
 
-    // populate the countdown element
-    countdownElTitle.textContent = `${countdownTitle}`
-    timeElements[0].textContent = `${days}`
-    timeElements[1].textContent = `${hours}`
-    timeElements[2].textContent = `${minutes}`
-    timeElements[3].textContent = `${seconds}`
+        // populate the countdown element
+        countdownElTitle.textContent = `${countdownTitle}`
+        timeElements[0].textContent = `${days}`
+        timeElements[1].textContent = `${hours}`
+        timeElements[2].textContent = `${minutes}`
+        timeElements[3].textContent = `${seconds}`
 
-    // hide input container + show countdown element
-    inputContainer.hidden = true
-    countdownEl.hidden = false
+        // hide input container + show countdown element
+        inputContainer.hidden = true
+        countdownEl.hidden = false
+    }, second)
+}
+
+// reset all values
+function reset() {
+    // Hide countdown + show input
+    countdownEl.hidden = true
+    inputContainer.hidden = false
+    
+    // Stop the countdown
+    clearInterval(countdownActive)
+
+    // Reset all values
+    countdownTitle = ''
+    countdownDate = ''
+
 }
 
 // Populate the countdown with the info from the form
@@ -61,4 +80,6 @@ function updateCountdown(e) {
 // Event Listners
 // Input form submit event
 countdownForm.addEventListener('submit', updateCountdown)
+// reset countdown
+countdownBtn.addEventListener('click', reset)
 

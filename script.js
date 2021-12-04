@@ -20,6 +20,9 @@ let countdownTitle = ''
 let countdownDate = ''
 let countdownValue = Date
 let countdownActive
+let savedCountDown
+
+
 
 
 // Set Date Input Minimum With Todays Date
@@ -37,7 +40,6 @@ function UpdateDom() {
         const hours = Math.floor((distance % day) / hour)
         const minutes = Math.floor((distance % hour) / minute)
         const seconds = Math.floor((distance % minute) / second)
-        //console.log(days, hours, minutes, seconds)
 
         // hide input container
         inputContainer.hidden = true
@@ -80,6 +82,7 @@ function reset() {
     // Reset all values
     countdownTitle = ''
     countdownDate = ''
+    localStorage.removeItem('countdown')
 
 }
 
@@ -88,6 +91,14 @@ function updateCountdown(e) {
     e.preventDefault()
     countdownTitle = e.srcElement[0].value
     countdownDate = e.srcElement[1].value
+
+    savedCountDown = {
+        title: countdownTitle,
+        date: countdownDate,
+    }
+
+    // Save countdown to local storage
+    localStorage.setItem('countdown', JSON.stringify(savedCountDown))
 
     // Check for valid input
     if(countdownDate === '') {
@@ -101,6 +112,20 @@ function updateCountdown(e) {
     
 }
 
+// Get values from localstorage on project startup
+function restorePreviousCountdown(){
+    // Get countdown from localStorage
+    if(localStorage.getItem('countdown')) {
+        inputContainer.hidden = true
+
+        savedCountDown = JSON.parse(localStorage.getItem('countdown'))
+        countdownTitle = savedCountDown.title
+        countdownDate = savedCountDown.date
+        countdownValue = new Date(countdownDate).getTime()
+        UpdateDom()
+    }
+}
+
 // Event Listners
 // Input form submit event
 countdownForm.addEventListener('submit', updateCountdown)
@@ -109,3 +134,5 @@ countdownBtn.addEventListener('click', reset)
 // return to countdown input form from complete element
 completeBtn.addEventListener('click', reset)
 
+// On load check local storage
+restorePreviousCountdown()

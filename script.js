@@ -7,6 +7,10 @@ const countdownElTitle = document.getElementById('countdown-title')
 const countdownBtn = document.getElementById('countdown-button')
 const timeElements = document.querySelectorAll('span')
 
+const completeEl = document.getElementById('complete')
+const completeElInfo = document.getElementById('complete-info')
+const completeBtn = document.getElementById('complete-button')
+
 const second = 1000
 const minute = second * 60
 const hour = minute * 60
@@ -35,16 +39,31 @@ function UpdateDom() {
         const seconds = Math.floor((distance % minute) / second)
         //console.log(days, hours, minutes, seconds)
 
-        // populate the countdown element
-        countdownElTitle.textContent = `${countdownTitle}`
-        timeElements[0].textContent = `${days}`
-        timeElements[1].textContent = `${hours}`
-        timeElements[2].textContent = `${minutes}`
-        timeElements[3].textContent = `${seconds}`
-
-        // hide input container + show countdown element
+        // hide input container
         inputContainer.hidden = true
-        countdownEl.hidden = false
+
+        // if the countdown is ended show complete el
+        if(distance < 0){
+            countdownEl.hidden = true
+            clearInterval(countdownActive)
+            completeElInfo.textContent = `${countdownTitle} finished on ${countdownDate}`
+            completeEl.hidden = false 
+        } else {
+            //show the countdown
+            // populate the countdown element
+            countdownElTitle.textContent = `${countdownTitle}`
+            timeElements[0].textContent = `${days}`
+            timeElements[1].textContent = `${hours}`
+            timeElements[2].textContent = `${minutes}`
+            timeElements[3].textContent = `${seconds}`
+
+            completeEl.hidden = true
+        
+            //show countdown element
+            countdownEl.hidden = false
+        }
+
+        
     }, second)
 }
 
@@ -52,6 +71,7 @@ function UpdateDom() {
 function reset() {
     // Hide countdown + show input
     countdownEl.hidden = true
+    completeEl.hidden = true
     inputContainer.hidden = false
     
     // Stop the countdown
@@ -86,4 +106,6 @@ function updateCountdown(e) {
 countdownForm.addEventListener('submit', updateCountdown)
 // reset countdown
 countdownBtn.addEventListener('click', reset)
+// return to countdown input form from complete element
+completeBtn.addEventListener('click', reset)
 

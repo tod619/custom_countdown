@@ -69,11 +69,15 @@ function updateCountdown(e) {
     countdownTitle = e.srcElement[0].value
     countdownDate = e.srcElement[1].value
 
-    // Get numbered versio of current date + update DOM
-    countdownValue = new Date(countdownDate).getTime()
-   // console.log(countdownValue)
-    UpdateDom()
-
+    // Check for valid input
+    if(countdownDate === '') {
+        alert('Please select a date for the countdown')
+    } else {
+        // Get numbered versio of current date + update DOM
+        countdownValue = new Date(countdownDate).getTime()
+        // console.log(countdownValue)
+        UpdateDom()
+    }
     
 }
 
